@@ -1,127 +1,139 @@
 {
   "lottery": "Powerball",
   "lottery_type": "powerball",
-  "last_updated": "2026-02-02T16:12:06.743995",
+  "last_updated": "2026-02-02T08:20:22.845493",
+  "current_jackpot": "$49 Million (Est.)",
+  "next_draw_date": "2026-02-02",
   "results": [
     {
-      "draw_date": "2026-02-02",
+      "draw_date": "2026-01-31",
       "numbers": [
-        17,
-        26,
-        35,
-        44,
-        45
-      ],
-      "special_ball": 14,
-      "jackpot": "$395 Million"
-    },
-    {
-      "draw_date": "2026-01-30",
-      "numbers": [
-        28,
-        29,
-        39,
-        55,
-        68
-      ],
-      "special_ball": 3,
-      "jackpot": "$95 Million"
-    },
-    {
-      "draw_date": "2026-01-27",
-      "numbers": [
-        1,
-        3,
-        5,
-        21,
-        30
+        2,
+        8,
+        14,
+        40,
+        63
       ],
       "special_ball": 23,
-      "jackpot": "$110 Million"
+      "jackpot": "Unknown",
+      "multiplier": "3"
+    },
+    {
+      "draw_date": "2026-01-28",
+      "numbers": [
+        21,
+        35,
+        40,
+        46,
+        68
+      ],
+      "special_ball": 11,
+      "jackpot": "Unknown",
+      "multiplier": "10"
+    },
+    {
+      "draw_date": "2026-01-26",
+      "numbers": [
+        21,
+        31,
+        51,
+        60,
+        63
+      ],
+      "special_ball": 18,
+      "jackpot": "Unknown",
+      "multiplier": "2"
     },
     {
       "draw_date": "2026-01-24",
       "numbers": [
-        5,
-        42,
-        43,
-        65,
-        68
+        2,
+        16,
+        35,
+        61,
+        63
       ],
-      "special_ball": 12,
-      "jackpot": "$343 Million"
+      "special_ball": 5,
+      "jackpot": "Unknown",
+      "multiplier": "3"
     },
     {
       "draw_date": "2026-01-21",
       "numbers": [
-        13,
-        18,
-        19,
-        45,
-        47
-      ],
-      "special_ball": 18,
-      "jackpot": "$209 Million"
-    },
-    {
-      "draw_date": "2026-01-18",
-      "numbers": [
-        19,
-        42,
-        49,
-        52,
-        67
-      ],
-      "special_ball": 8,
-      "jackpot": "$476 Million"
-    },
-    {
-      "draw_date": "2026-01-15",
-      "numbers": [
-        12,
+        11,
+        26,
         27,
-        47,
-        50,
-        56
+        53,
+        55
       ],
-      "special_ball": 24,
-      "jackpot": "$95 Million"
+      "special_ball": 12,
+      "jackpot": "Unknown",
+      "multiplier": "2"
+    },
+    {
+      "draw_date": "2026-01-19",
+      "numbers": [
+        5,
+        28,
+        34,
+        37,
+        55
+      ],
+      "special_ball": 17,
+      "jackpot": "Unknown",
+      "multiplier": "3"
+    },
+    {
+      "draw_date": "2026-01-17",
+      "numbers": [
+        5,
+        8,
+        27,
+        49,
+        57
+      ],
+      "special_ball": 14,
+      "jackpot": "Unknown",
+      "multiplier": "4"
+    },
+    {
+      "draw_date": "2026-01-14",
+      "numbers": [
+        6,
+        24,
+        39,
+        43,
+        51
+      ],
+      "special_ball": 2,
+      "jackpot": "Unknown",
+      "multiplier": "2"
     },
     {
       "draw_date": "2026-01-12",
       "numbers": [
-        10,
-        12,
-        25,
-        55,
-        67
+        5,
+        27,
+        45,
+        56,
+        59
       ],
-      "special_ball": 3,
-      "jackpot": "$324 Million"
+      "special_ball": 4,
+      "jackpot": "Unknown",
+      "multiplier": "2"
     },
     {
-      "draw_date": "2026-01-09",
+      "draw_date": "2026-01-10",
       "numbers": [
-        12,
-        27,
-        59,
-        62,
-        65
+        5,
+        19,
+        21,
+        28,
+        64
       ],
-      "special_ball": 11,
-      "jackpot": "$280 Million"
-    },
-    {
-      "draw_date": "2026-01-06",
-      "numbers": [
-        9,
-        27,
-        48,
-        68,
-        69
-      ],
-      "special_ball": 26,
-      "jackpot": "$307 Million"
+      "special_ball": 14,
+      "jackpot": "Unknown",
+      "multiplier": "3"
     }
   ]
 }
