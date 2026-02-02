@@ -1,127 +1,127 @@
 {
   "lottery": "Powerball",
   "lottery_type": "powerball",
-  "last_updated": "2026-02-02T10:21:38.048268",
+  "last_updated": "2026-02-02T06:13:22.329342",
   "results": [
     {
-      "draw_date": "2026-02-02",
+      "draw_date": "2026-01-31",
       "numbers": [
-        24,
-        25,
-        34,
-        50,
-        52
+        2,
+        8,
+        14,
+        40,
+        63
       ],
-      "special_ball": 3,
-      "jackpot": "$142 Million"
+      "special_ball": 23,
+      "jackpot": "Unknown"
     },
     {
-      "draw_date": "2026-01-30",
+      "draw_date": "2026-01-28",
       "numbers": [
-        22,
-        34,
+        21,
         35,
-        57,
-        65
+        40,
+        46,
+        68
       ],
-      "special_ball": 15,
-      "jackpot": "$196 Million"
+      "special_ball": 11,
+      "jackpot": "Unknown"
     },
     {
-      "draw_date": "2026-01-27",
+      "draw_date": "2026-01-26",
       "numbers": [
-        11,
-        12,
-        15,
-        52,
-        66
+        21,
+        31,
+        51,
+        60,
+        63
       ],
-      "special_ball": 25,
-      "jackpot": "$476 Million"
+      "special_ball": 18,
+      "jackpot": "Unknown"
     },
     {
       "draw_date": "2026-01-24",
       "numbers": [
-        7,
-        26,
-        32,
-        36,
-        65
+        2,
+        16,
+        35,
+        61,
+        63
       ],
-      "special_ball": 8,
-      "jackpot": "$234 Million"
+      "special_ball": 5,
+      "jackpot": "Unknown"
     },
     {
       "draw_date": "2026-01-21",
       "numbers": [
-        3,
-        14,
+        11,
         26,
-        30,
-        54
+        27,
+        53,
+        55
       ],
       "special_ball": 12,
-      "jackpot": "$297 Million"
+      "jackpot": "Unknown"
     },
     {
-      "draw_date": "2026-01-18",
+      "draw_date": "2026-01-19",
       "numbers": [
-        1,
-        2,
-        27,
-        66,
-        69
+        5,
+        28,
+        34,
+        37,
+        55
       ],
-      "special_ball": 22,
-      "jackpot": "$236 Million"
+      "special_ball": 17,
+      "jackpot": "Unknown"
     },
     {
-      "draw_date": "2026-01-15",
+      "draw_date": "2026-01-17",
+      "numbers": [
+        5,
+        8,
+        27,
+        49,
+        57
+      ],
+      "special_ball": 14,
+      "jackpot": "Unknown"
+    },
+    {
+      "draw_date": "2026-01-14",
       "numbers": [
         6,
-        41,
-        58,
-        63,
-        65
+        24,
+        39,
+        43,
+        51
       ],
-      "special_ball": 25,
-      "jackpot": "$466 Million"
+      "special_ball": 2,
+      "jackpot": "Unknown"
     },
     {
       "draw_date": "2026-01-12",
       "numbers": [
-        8,
-        18,
-        33,
-        41,
-        58
-      ],
-      "special_ball": 5,
-      "jackpot": "$258 Million"
-    },
-    {
-      "draw_date": "2026-01-09",
-      "numbers": [
-        10,
-        41,
-        44,
-        46,
-        65
-      ],
-      "special_ball": 18,
-      "jackpot": "$495 Million"
-    },
-    {
-      "draw_date": "2026-01-06",
-      "numbers": [
-        6,
-        19,
-        20,
-        26,
-        30
+        5,
+        27,
+        45,
+        56,
+        59
       ],
       "special_ball": 4,
-      "jackpot": "$313 Million"
+      "jackpot": "Unknown"
+    },
+    {
+      "draw_date": "2026-01-10",
+      "numbers": [
+        5,
+        19,
+        21,
+        28,
+        64
+      ],
+      "special_ball": 14,
+      "jackpot": "Unknown"
     }
   ]
 }
