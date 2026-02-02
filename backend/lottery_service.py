@@ -450,12 +450,16 @@ class LotteryService:
         all_special = list(range(self.config['special_range'][0], self.config['special_range'][1] + 1))
 
         hot_main = [num for num, _ in main_counter.most_common(10)]
-        cold_main = [num for num in all_main if main_counter[num] == 0][:10] or \
-                    [num for num, _ in main_counter.most_common()[:-11:-1]]
+        # Cold numbers: sort all numbers by frequency (ascending), take lowest 10
+        main_with_counts = [(num, main_counter.get(num, 0)) for num in all_main]
+        main_with_counts.sort(key=lambda x: x[1])  # Sort by count ascending
+        cold_main = [num for num, _ in main_with_counts[:10]]
 
         hot_special = [num for num, _ in special_counter.most_common(5)]
-        cold_special = [num for num in all_special if special_counter[num] == 0][:5] or \
-                       [num for num, _ in special_counter.most_common()[:-6:-1]]
+        # Cold special: sort by frequency ascending
+        special_with_counts = [(num, special_counter.get(num, 0)) for num in all_special]
+        special_with_counts.sort(key=lambda x: x[1])
+        cold_special = [num for num, _ in special_with_counts[:5]]
 
         return {
             'lottery': self.config['name'],
@@ -471,8 +475,9 @@ class LotteryService:
                 'special': cold_special
             },
             'frequency': {
-                'main': {str(k): v for k, v in main_counter.most_common(20)},
-                'special': {str(k): v for k, v in special_counter.most_common(10)}
+                # Include all numbers that appeared, plus cold numbers with 0
+                'main': {str(num): main_counter.get(num, 0) for num in hot_main + cold_main},
+                'special': {str(num): special_counter.get(num, 0) for num in hot_special + cold_special}
             }
         }
 
