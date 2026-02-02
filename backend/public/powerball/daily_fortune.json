@@ -1,0 +1,16 @@
+{
+  "lottery": "Powerball",
+  "lottery_type": "powerball",
+  "date": "2026-02-02",
+  "fortune": "The universe is sending positive vibrations your way. Stay optimistic!",
+  "lucky_numbers": [
+    4,
+    9,
+    12,
+    19,
+    52,
+    65
+  ],
+  "lucky_color": "Green",
+  "lucky_time": "9:15 AM"
+}

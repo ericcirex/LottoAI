@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2026-02-02T10:21:39.093857",
+  "lotteries": [
+    "powerball",
+    "mega_millions"
+  ],
+  "endpoints": {
+    "latest_results": "/{lottery}/latest_results.json",
+    "hot_cold": "/{lottery}/hot_cold_numbers.json",
+    "predictions": "/{lottery}/ai_predictions.json",
+    "fortune": "/{lottery}/daily_fortune.json",
+    "quotes": "/daily_quotes.json"
+  }
+}

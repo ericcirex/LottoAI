@@ -1,0 +1,83 @@
+{
+  "lottery": "Powerball",
+  "lottery_type": "powerball",
+  "generated_at": "2026-02-02T10:21:38.049149",
+  "next_draw": "2026-02-04",
+  "predictions": [
+    {
+      "id": 1,
+      "numbers": [
+        3,
+        12,
+        18,
+        35,
+        43
+      ],
+      "special_ball": 21,
+      "strategy": "Frequency Analysis",
+      "strategy_id": "frequency",
+      "confidence": 0.77,
+      "description": "Based on most common numbers"
+    },
+    {
+      "id": 2,
+      "numbers": [
+        4,
+        43,
+        48,
+        53,
+        67
+      ],
+      "special_ball": 17,
+      "strategy": "Cold Numbers",
+      "strategy_id": "cold",
+      "confidence": 0.78,
+      "description": "Numbers that have not appeared recently"
+    },
+    {
+      "id": 3,
+      "numbers": [
+        5,
+        12,
+        30,
+        43,
+        67
+      ],
+      "special_ball": 6,
+      "strategy": "Balanced Mix",
+      "strategy_id": "balanced",
+      "confidence": 0.78,
+      "description": "Mix of hot and cold numbers"
+    },
+    {
+      "id": 4,
+      "numbers": [
+        5,
+        45,
+        54,
+        63,
+        69
+      ],
+      "special_ball": 11,
+      "strategy": "Pattern Analysis",
+      "strategy_id": "pattern",
+      "confidence": 0.69,
+      "description": "Based on historical patterns"
+    },
+    {
+      "id": 5,
+      "numbers": [
+        30,
+        44,
+        55,
+        61,
+        69
+      ],
+      "special_ball": 10,
+      "strategy": "Lucky Random",
+      "strategy_id": "random",
+      "confidence": 0.92,
+      "description": "Randomly generated numbers"
+    }
+  ]
+}

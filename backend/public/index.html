@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LottoAI API</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: white;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: #8892b0; margin-bottom: 40px; }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        .card h2 {
+            color: #FFD700;
+            margin-bottom: 16px;
+            font-size: 1.25rem;
+        }
+        .endpoint {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .endpoint:last-child { border-bottom: none; }
+        .method {
+            background: #10b981;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 12px;
+        }
+        .path {
+            color: #64ffda;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+        }
+        a { color: #64ffda; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #8892b0;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>LottoAI API</h1>
+        <p class="subtitle">Lottery predictions powered by AI</p>
+
+        <div class="card">
+            <h2>Powerball Endpoints</h2>
+            <div class="endpoint">
+                <span class="method">GET</span>
+                <a class="path" href="./powerball/latest_results.json">/powerball/latest_results.json</a>
+            </div>
+            <div class="endpoint">
+                <span class="method">GET</span>
+                <a class="path" href="./powerball/hot_cold_numbers.json">/powerball/hot_cold_numbers.json</a>
+            </div>
+            <div class="endpoint">
+                <span class="method">GET</span>
+                <a class="path" href="./powerball/ai_predictions.json">/powerball/ai_predictions.json</a>
+            </div>
+            <div class="endpoint">
+                <span class="method">GET</span>
+                <a class="path" href="./powerball/daily_fortune.json">/powerball/daily_fortune.json</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Mega Millions Endpoints</h2>
+            <div class="endpoint">
+                <span class="method">GET</span>
+                <a class="path" href="./mega_millions/latest_results.json">/mega_millions/latest_results.json</a>
+            </div>
+            <div class="endpoint">
+                <span class="method">GET</span>
+                <a class="path" href="./mega_millions/hot_cold_numbers.json">/mega_millions/hot_cold_numbers.json</a>
+            </div>
+            <div class="endpoint">
+                <span class="method">GET</span>
+                <a class="path" href="./mega_millions/ai_predictions.json">/mega_millions/ai_predictions.json</a>
+            </div>
+            <div class="endpoint">
+                <span class="method">GET</span>
+                <a class="path" href="./mega_millions/daily_fortune.json">/mega_millions/daily_fortune.json</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Common Endpoints</h2>
+            <div class="endpoint">
+                <span class="method">GET</span>
+                <a class="path" href="./daily_quotes.json">/daily_quotes.json</a>
+            </div>
+            <div class="endpoint">
+                <span class="method">GET</span>
+                <a class="path" href="./manifest.json">/manifest.json</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Updated automatically via GitHub Actions</p>
+            <p>Data refreshes every 4 hours</p>
+        </div>
+    </div>
+</body>
+</html>

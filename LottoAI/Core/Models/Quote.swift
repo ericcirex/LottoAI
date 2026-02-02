@@ -1,0 +1,74 @@
+import Foundation
+
+/// 每日金句
+struct Quote: Codable, Identifiable {
+    let id: Int
+    let text: String
+    let author: String?
+    let category: QuoteCategory
+
+    /// 今日金句 (基于日期选择)
+    static func todayQuote(from quotes: [Quote]) -> Quote? {
+        guard !quotes.isEmpty else { return nil }
+
+        let calendar = Calendar.current
+        let dayOfYear = calendar.ordinality(of: .day, in: .year, for: Date()) ?? 1
+        let index = (dayOfYear - 1) % quotes.count
+
+        return quotes[index]
+    }
+}
+
+/// 金句类别
+enum QuoteCategory: String, Codable {
+    case luck
+    case fortune
+    case motivation
+    case wisdom
+    case positivity
+
+    var displayName: String {
+        switch self {
+        case .luck: return "Luck"
+        case .fortune: return "Fortune"
+        case .motivation: return "Motivation"
+        case .wisdom: return "Wisdom"
+        case .positivity: return "Positivity"
+        }
+    }
+
+    var emoji: String {
+        switch self {
+        case .luck: return "🍀"
+        case .fortune: return "💰"
+        case .motivation: return "🚀"
+        case .wisdom: return "🦉"
+        case .positivity: return "✨"
+        }
+    }
+}
+
+/// 每日运势
+struct DailyFortune: Codable {
+    let date: String
+    let fortuneLevel: Int
+    let luckyNumbers: [Int]
+    let luckyColor: String
+    let message: String
+    let advice: String
+
+    enum CodingKeys: String, CodingKey {
+        case date
+        case fortuneLevel = "fortune_level"
+        case luckyNumbers = "lucky_numbers"
+        case luckyColor = "lucky_color"
+        case message
+        case advice
+    }
+
+    /// 运势星级显示
+    var starsDisplay: String {
+        String(repeating: "★", count: fortuneLevel) +
+        String(repeating: "☆", count: 5 - fortuneLevel)
+    }
+}

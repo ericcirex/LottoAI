@@ -1,0 +1,127 @@
+{
+  "lottery": "Powerball",
+  "lottery_type": "powerball",
+  "last_updated": "2026-02-02T10:21:38.048268",
+  "results": [
+    {
+      "draw_date": "2026-02-02",
+      "numbers": [
+        24,
+        25,
+        34,
+        50,
+        52
+      ],
+      "special_ball": 3,
+      "jackpot": "$142 Million"
+    },
+    {
+      "draw_date": "2026-01-30",
+      "numbers": [
+        22,
+        34,
+        35,
+        57,
+        65
+      ],
+      "special_ball": 15,
+      "jackpot": "$196 Million"
+    },
+    {
+      "draw_date": "2026-01-27",
+      "numbers": [
+        11,
+        12,
+        15,
+        52,
+        66
+      ],
+      "special_ball": 25,
+      "jackpot": "$476 Million"
+    },
+    {
+      "draw_date": "2026-01-24",
+      "numbers": [
+        7,
+        26,
+        32,
+        36,
+        65
+      ],
+      "special_ball": 8,
+      "jackpot": "$234 Million"
+    },
+    {
+      "draw_date": "2026-01-21",
+      "numbers": [
+        3,
+        14,
+        26,
+        30,
+        54
+      ],
+      "special_ball": 12,
+      "jackpot": "$297 Million"
+    },
+    {
+      "draw_date": "2026-01-18",
+      "numbers": [
+        1,
+        2,
+        27,
+        66,
+        69
+      ],
+      "special_ball": 22,
+      "jackpot": "$236 Million"
+    },
+    {
+      "draw_date": "2026-01-15",
+      "numbers": [
+        6,
+        41,
+        58,
+        63,
+        65
+      ],
+      "special_ball": 25,
+      "jackpot": "$466 Million"
+    },
+    {
+      "draw_date": "2026-01-12",
+      "numbers": [
+        8,
+        18,
+        33,
+        41,
+        58
+      ],
+      "special_ball": 5,
+      "jackpot": "$258 Million"
+    },
+    {
+      "draw_date": "2026-01-09",
+      "numbers": [
+        10,
+        41,
+        44,
+        46,
+        65
+      ],
+      "special_ball": 18,
+      "jackpot": "$495 Million"
+    },
+    {
+      "draw_date": "2026-01-06",
+      "numbers": [
+        6,
+        19,
+        20,
+        26,
+        30
+      ],
+      "special_ball": 4,
+      "jackpot": "$313 Million"
+    }
+  ]
+}
