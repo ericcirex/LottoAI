@@ -1,0 +1,97 @@
+name: Update Lottery Data
+
+on:
+  # Run on schedule (every 4 hours)
+  schedule:
+    - cron: '0 */4 * * *'  # Every 4 hours
+
+  # Allow manual trigger
+  workflow_dispatch:
+
+  # Run on push to main (for testing)
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+      - '.github/workflows/update-lottery-data.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Run lottery service
+        run: |
+          cd backend
+          python lottery_service.py --all --output ./public
+
+      - name: List generated files
+        run: |
+          echo "Generated files:"
+          find backend/public -type f -name "*.json" | head -20
+
+      - name: Configure Git
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+      - name: Commit and push changes
+        run: |
+          git add backend/public/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update lottery data"
+            git push
+          fi
+
+  # Deploy to GitHub Pages
+  deploy-pages:
+    needs: update-data
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'backend/public'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
