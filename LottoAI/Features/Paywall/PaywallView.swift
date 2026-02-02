@@ -77,7 +77,7 @@ struct PaywallView: View {
                     // 购买按钮
                     PurchaseButton(
                         isLoading: isPurchasing,
-                        isDisabled: selectedProduct == nil
+                        isDisabled: selectedProduct == nil && subscriptionManager.products.isEmpty == false
                     ) {
                         Task {
                             await purchase()
@@ -168,6 +168,13 @@ struct PaywallView: View {
     }
 
     private func purchase() async {
+        // 如果没有 StoreKit 产品（模拟器未配置），显示提示
+        if subscriptionManager.products.isEmpty {
+            errorMessage = "In-app purchases are not available in the simulator. Please test on a real device with StoreKit configured."
+            showError = true
+            return
+        }
+
         guard let product = selectedProduct else { return }
         isPurchasing = true
         HapticManager.mediumImpact()
@@ -537,13 +544,7 @@ struct PremiumFeaturesList: View {
 struct SubscriptionOptions: View {
     let products: [Product]
     @Binding var selectedProduct: Product?
-
-    // 备用价格显示 (当 StoreKit 产品未加载时)
-    private let fallbackPrices: [String: (price: String, period: String)] = [
-        "weekly": ("$3.99", "per week"),
-        "monthly": ("$11.99", "per month"),
-        "yearly": ("$89.99", "per year")
-    ]
+    @State private var selectedFallbackPlan: String = "monthly"  // 备用选择状态
 
     var body: some View {
         HStack(spacing: 12) {
@@ -563,32 +564,50 @@ struct SubscriptionOptions: View {
                     }
                 }
             } else {
-                // 备用显示：当产品未加载时显示占位卡片
+                // 备用显示：当产品未加载时显示可点击的占位卡片
                 FallbackSubscriptionCard(
                     title: "Weekly",
                     price: "$3.99",
                     period: "per week",
                     isPopular: false,
+                    isSelected: selectedFallbackPlan == "weekly",
                     savings: nil
-                )
+                ) {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                        selectedFallbackPlan = "weekly"
+                    }
+                    HapticManager.selection()
+                }
                 FallbackSubscriptionCard(
                     title: "Monthly",
                     price: "$11.99",
                     period: "per month",
                     isPopular: true,
+                    isSelected: selectedFallbackPlan == "monthly",
                     savings: nil
-                )
+                ) {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                        selectedFallbackPlan = "monthly"
+                    }
+                    HapticManager.selection()
+                }
                 FallbackSubscriptionCard(
                     title: "Yearly",
                     price: "$89.99",
                     period: "per year",
                     isPopular: false,
+                    isSelected: selectedFallbackPlan == "yearly",
                     savings: "Save 38%"
-                )
+                ) {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                        selectedFallbackPlan = "yearly"
+                    }
+                    HapticManager.selection()
+                }
             }
         }
         .onAppear {
-            if selectedProduct == nil {
+            if selectedProduct == nil && !products.isEmpty {
                 selectedProduct = products.first { $0.id.contains("monthly") } ?? products.first
             }
         }
@@ -608,62 +627,80 @@ struct FallbackSubscriptionCard: View {
     let price: String
     let period: String
     let isPopular: Bool
+    let isSelected: Bool
     let savings: String?
+    let onSelect: () -> Void
+
+    @State private var isPressed = false
 
     var body: some View {
-        VStack(spacing: 8) {
-            if isPopular {
-                Text("MOST POPULAR")
-                    .font(.caption2)
+        Button(action: onSelect) {
+            VStack(spacing: 8) {
+                if isPopular {
+                    Text("MOST POPULAR")
+                        .font(.caption2)
+                        .fontWeight(.bold)
+                        .foregroundColor(AppColors.deepBlack)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(
+                            Capsule()
+                                .fill(AppColors.gold)
+                        )
+                } else {
+                    Spacer()
+                        .frame(height: 20)
+                }
+
+                Text(title)
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundColor(AppColors.textSecondary)
+
+                Text(price)
+                    .font(.title2)
                     .fontWeight(.bold)
-                    .foregroundColor(AppColors.deepBlack)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(
-                        Capsule()
-                            .fill(AppColors.gold)
-                    )
-            } else {
-                Spacer()
-                    .frame(height: 20)
-            }
+                    .foregroundColor(isSelected ? AppColors.gold : .white)
 
-            Text(title)
-                .font(.caption)
-                .fontWeight(.medium)
-                .foregroundColor(AppColors.textSecondary)
-
-            Text(price)
-                .font(.title2)
-                .fontWeight(.bold)
-                .foregroundColor(.white)
-
-            Text(period)
-                .font(.caption2)
-                .foregroundColor(AppColors.textTertiary)
-
-            if let savings = savings {
-                Text(savings)
+                Text(period)
                     .font(.caption2)
-                    .fontWeight(.bold)
-                    .foregroundColor(AppColors.techCyan)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 3)
-                    .background(
-                        Capsule()
-                            .fill(AppColors.techCyan.opacity(0.2))
-                    )
+                    .foregroundColor(AppColors.textTertiary)
+
+                if let savings = savings {
+                    Text(savings)
+                        .font(.caption2)
+                        .fontWeight(.bold)
+                        .foregroundColor(AppColors.techCyan)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 3)
+                        .background(
+                            Capsule()
+                                .fill(AppColors.techCyan.opacity(0.2))
+                        )
+                }
             }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 16)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(isSelected ? AppColors.spaceBlue : AppColors.deepBlack.opacity(0.8))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(
+                                isSelected
+                                    ? LinearGradient(colors: [AppColors.gold, Color(hex: "FFA500")], startPoint: .topLeading, endPoint: .bottomTrailing)
+                                    : LinearGradient(colors: [AppColors.textTertiary], startPoint: .topLeading, endPoint: .bottomTrailing),
+                                lineWidth: isSelected ? 2 : 1
+                            )
+                    )
+            )
+            .scaleEffect(isPressed ? 0.95 : 1)
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 16)
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(AppColors.deepBlack.opacity(0.8))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16)
-                        .stroke(AppColors.textTertiary, lineWidth: 1)
-                )
+        .buttonStyle(PlainButtonStyle())
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { _ in isPressed = true }
+                .onEnded { _ in isPressed = false }
         )
     }
 }

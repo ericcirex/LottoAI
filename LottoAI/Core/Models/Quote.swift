@@ -2,12 +2,33 @@ import Foundation
 
 /// 每日金句
 struct Quote: Codable, Identifiable {
-    let id: Int
+    var id: Int
     let text: String
     let author: String?
-    let category: QuoteCategory
+    var category: QuoteCategory
 
-    /// 今日金句 (基于日期选择)
+    enum CodingKeys: String, CodingKey {
+        case text
+        case author
+    }
+
+    init(id: Int, text: String, author: String?, category: QuoteCategory) {
+        self.id = id
+        self.text = text
+        self.author = author
+        self.category = category
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.text = try container.decode(String.self, forKey: .text)
+        self.author = try container.decodeIfPresent(String.self, forKey: .author)
+        // 自动生成 id 和 category
+        self.id = text.hashValue
+        self.category = .luck
+    }
+
+    /// 今日金句 (基于日期选择，每天自动更换)
     static func todayQuote(from quotes: [Quote]) -> Quote? {
         guard !quotes.isEmpty else { return nil }
 
