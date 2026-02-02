@@ -13,8 +13,7 @@ actor APIService {
         var baseURL: String {
             switch self {
             case .githubActions:
-                // TODO: 部署后替换为你的 GitHub Pages 域名
-                // 格式: https://<username>.github.io/<repo-name>
+                // GitHub Pages 域名
                 return "https://ericcirex.github.io/LottoAI"
             case .githubPages:
                 return "https://ericcirex.github.io/lotto-ai-api"
