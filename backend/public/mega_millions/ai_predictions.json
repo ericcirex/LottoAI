@@ -1,7 +1,7 @@
 {
   "lottery": "Mega Millions",
   "lottery_type": "mega_millions",
-  "generated_at": "2026-02-02T08:34:32.823830",
+  "generated_at": "2026-02-02T08:56:31.879323",
   "next_draw": "2026-02-03",
   "current_jackpot": "$303 Million",
   "predictions": [
@@ -23,11 +23,11 @@
     {
       "id": 2,
       "numbers": [
-        28,
-        29,
-        53,
+        51,
+        54,
         59,
-        62
+        61,
+        63
       ],
       "special_ball": 2,
       "strategy": "Cold Numbers",
@@ -38,8 +38,8 @@
     {
       "id": 3,
       "numbers": [
-        13,
-        28,
+        5,
+        14,
         29,
         56,
         64
