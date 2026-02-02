@@ -60,8 +60,9 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Update lottery data"
-            git push
+            git pull --rebase origin main || true
+            git commit -m "Update lottery data" || true
+            git push || git push --force-with-lease
           fi
 
   # Deploy to GitHub Pages
