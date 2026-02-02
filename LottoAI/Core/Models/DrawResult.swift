@@ -6,9 +6,23 @@ struct DrawResult: Codable, Identifiable {
     let numbers: [Int]
     let specialBall: Int
     let jackpot: String?
-    let multiplier: Int?
+    let multiplier: String?  // API 返回字符串类型
 
     var id: String { drawDate }
+
+    enum CodingKeys: String, CodingKey {
+        case drawDate = "draw_date"
+        case numbers
+        case specialBall = "special_ball"
+        case jackpot
+        case multiplier
+    }
+
+    /// 获取 multiplier 数值
+    var multiplierValue: Int? {
+        guard let m = multiplier else { return nil }
+        return Int(m)
+    }
 
     /// 格式化日期显示
     var formattedDate: String {

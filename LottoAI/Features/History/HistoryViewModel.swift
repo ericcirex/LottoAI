@@ -67,7 +67,7 @@ class HistoryViewModel: ObservableObject {
                 numbers: Array(numbers.prefix(5)),
                 specialBall: min(special, specialRange.upperBound),
                 jackpot: jackpots[i],
-                multiplier: [2, 3, 4, 5, 10][i % 5]
+                multiplier: ["2", "3", "4", "5", "10"][i % 5]
             )
         }
     }

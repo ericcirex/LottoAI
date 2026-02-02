@@ -77,7 +77,7 @@ class HomeViewModel: ObservableObject {
                 : [5, 18, 33, 42, 61],
             specialBall: lottery == .powerball ? 11 : 22,
             jackpot: formatDefaultJackpot(for: lottery),
-            multiplier: 2
+            multiplier: "2"
         )
     }
 }
