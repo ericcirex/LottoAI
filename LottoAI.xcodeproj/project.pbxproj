@@ -3,20 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		0106A9D42D69956D09CE25AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E1E0790A3997CEEC42FD21A /* Assets.xcassets */; };
+		DDD111111111111111111112 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DDD111111111111111111111 /* GoogleService-Info.plist */; };
 		068076709B66960F84A21CC9 /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48338D255B75D82D03CA249 /* HistoryViewModel.swift */; };
-		AAA111111111111111111112 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA111111111111111111111 /* AuthenticationManager.swift */; };
-		AAA222222222222222222222 /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA222222222222222222221 /* AppUser.swift */; };
-		AAA333333333333333333332 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA333333333333333333331 /* LoginView.swift */; };
-		AAA444444444444444444442 /* TicketScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA444444444444444444441 /* TicketScannerView.swift */; };
-		AAA555555555555555555552 /* TicketScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA555555555555555555551 /* TicketScannerViewModel.swift */; };
-		AAA666666666666666666662 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA666666666666666666661 /* ImagePicker.swift */; };
-		BBB111111111111111111112 /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB111111111111111111111 /* FirestoreService.swift */; };
-		CCC111111111111111111112 /* ScannedTicketsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC111111111111111111111 /* ScannedTicketsView.swift */; };
 		145C57D8B65EF2EC9226AE6E /* LottoAIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E329C029750020FD1359A9A /* LottoAIApp.swift */; };
 		1D85C5E5DCDD7D7522A523D0 /* LottoAIWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7C81AFD778DE6070ED3CEB94 /* LottoAIWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		28E575A0B23BDC3BF67D9AC4 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F6DA4939814CD247FB244B /* SubscriptionManager.swift */; };
@@ -33,10 +26,18 @@
 		871FEC8FB867FE885EDFCE76 /* LotteryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92BB8149A9E6EB26DB72D65 /* LotteryType.swift */; };
 		9F656D082E8AB370FA9CE6EB /* Prediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A809B7FA17A6B4C6EDF76EB2 /* Prediction.swift */; };
 		A962988D3BF5AEFDB297F808 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548C8AA6C658F4045C1858B3 /* SplashView.swift */; };
+		AAA111111111111111111112 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA111111111111111111111 /* AuthenticationManager.swift */; };
+		AAA222222222222222222222 /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA222222222222222222221 /* AppUser.swift */; };
+		AAA333333333333333333332 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA333333333333333333331 /* LoginView.swift */; };
+		AAA444444444444444444442 /* TicketScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA444444444444444444441 /* TicketScannerView.swift */; };
+		AAA555555555555555555552 /* TicketScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA555555555555555555551 /* TicketScannerViewModel.swift */; };
+		AAA666666666666666666662 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA666666666666666666661 /* ImagePicker.swift */; };
 		AB930C56F81108E76D247076 /* Quote.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6418719DFBA4A950D19263D /* Quote.swift */; };
 		B7360B629E2F130990AD512F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025A92B6992D706F463F42BA /* ContentView.swift */; };
 		B9490CB58BFE8F89D4B914F1 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972E2F2DB3ACB83FC61A8527 /* Colors.swift */; };
+		BBB111111111111111111112 /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB111111111111111111111 /* FirestoreService.swift */; };
 		C38BF274401DA447C84A5213 /* PredictionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7093F4C22CF3DEF609F664A /* PredictionViewModel.swift */; };
+		CCC111111111111111111112 /* ScannedTicketsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC111111111111111111111 /* ScannedTicketsView.swift */; };
 		D2819919FA6C9781C026DF09 /* PredictionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12754276AD07C4C1B47E167B /* PredictionView.swift */; };
 		D30D678B3D74DF7DD7B9F7A2 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F9B465DF20E291B5D67EB8 /* HomeViewModel.swift */; };
 		DD1F4F6B49B88ECC604735A4 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C74032FE1521C0DA837A5F /* HapticManager.swift */; };
@@ -72,12 +73,6 @@
 /* Begin PBXFileReference section */
 		023B6BF33F328F282A0D6805 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		025A92B6992D706F463F42BA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		AAA111111111111111111111 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
-		AAA222222222222222222221 /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
-		AAA333333333333333333331 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		AAA444444444444444444441 /* TicketScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketScannerView.swift; sourceTree = "<group>"; };
-		AAA555555555555555555551 /* TicketScannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketScannerViewModel.swift; sourceTree = "<group>"; };
-		AAA666666666666666666661 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		0661F507E622D8626DBE3013 /* LottoBall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoBall.swift; sourceTree = "<group>"; };
 		12754276AD07C4C1B47E167B /* PredictionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionView.swift; sourceTree = "<group>"; };
 		1C040E271640D2570789777E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -98,10 +93,18 @@
 		972E2F2DB3ACB83FC61A8527 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		9BA7F1CE8713C3D1C55189A0 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		A809B7FA17A6B4C6EDF76EB2 /* Prediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prediction.swift; sourceTree = "<group>"; };
+		AAA111111111111111111111 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
+		AAA222222222222222222221 /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
+		AAA333333333333333333331 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		AAA444444444444444444441 /* TicketScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketScannerView.swift; sourceTree = "<group>"; };
+		AAA555555555555555555551 /* TicketScannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketScannerViewModel.swift; sourceTree = "<group>"; };
+		AAA666666666666666666661 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		B92BB8149A9E6EB26DB72D65 /* LotteryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LotteryType.swift; sourceTree = "<group>"; };
+		BBB111111111111111111111 /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
 		C5C74032FE1521C0DA837A5F /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		C6418719DFBA4A950D19263D /* Quote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quote.swift; sourceTree = "<group>"; };
 		C942FA1B0272968415D6F469 /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
+		CCC111111111111111111111 /* ScannedTicketsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannedTicketsView.swift; sourceTree = "<group>"; };
 		D5F6DA4939814CD247FB244B /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		D620C38109D9224B7C740C06 /* DrawResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawResult.swift; sourceTree = "<group>"; };
 		E51AC68EFBC8A5995E64DB1B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -109,8 +112,7 @@
 		F48338D255B75D82D03CA249 /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
 		FA4806C601200C4CEB5E0976 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		FE9E52F4ECFCC29495EB5D7C /* LottoAIWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoAIWidget.swift; sourceTree = "<group>"; };
-		BBB111111111111111111111 /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
-		CCC111111111111111111111 /* ScannedTicketsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannedTicketsView.swift; sourceTree = "<group>"; };
+		DDD111111111111111111111 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -198,24 +200,6 @@
 			path = Features;
 			sourceTree = "<group>";
 		};
-		AAA777777777777777777771 /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-				AAA333333333333333333331 /* LoginView.swift */,
-			);
-			path = Auth;
-			sourceTree = "<group>";
-		};
-		AAA888888888888888888881 /* Scanner */ = {
-			isa = PBXGroup;
-			children = (
-				CCC111111111111111111111 /* ScannedTicketsView.swift */,
-				AAA444444444444444444441 /* TicketScannerView.swift */,
-				AAA555555555555555555551 /* TicketScannerViewModel.swift */,
-			);
-			path = Scanner;
-			sourceTree = "<group>";
-		};
 		446CBDBCAE20EE75ED41281D /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -257,10 +241,29 @@
 			path = Animations;
 			sourceTree = "<group>";
 		};
+		AAA777777777777777777771 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				AAA333333333333333333331 /* LoginView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		AAA888888888888888888881 /* Scanner */ = {
+			isa = PBXGroup;
+			children = (
+				CCC111111111111111111111 /* ScannedTicketsView.swift */,
+				AAA444444444444444444441 /* TicketScannerView.swift */,
+				AAA555555555555555555551 /* TicketScannerViewModel.swift */,
+			);
+			path = Scanner;
+			sourceTree = "<group>";
+		};
 		AF848A0B1C66DF861C6A0612 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				1E1E0790A3997CEEC42FD21A /* Assets.xcassets */,
+				DDD111111111111111111111 /* GoogleService-Info.plist */,
 				7D54FD2B3FB640ACEA690C47 /* Info.plist */,
 				6EBDD0BC02ADA4FC71975B0E /* LottoAI.entitlements */,
 				7B3BEA81531033A51CB026F6 /* Sounds */,
@@ -398,7 +401,8 @@
 			);
 			mainGroup = 124E6AD76D25CF58A3D55707;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 54;
+			packageReferences = (
+			);
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -414,6 +418,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0106A9D42D69956D09CE25AF /* Assets.xcassets in Resources */,
+				DDD111111111111111111112 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

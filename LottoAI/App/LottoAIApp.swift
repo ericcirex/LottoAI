@@ -1,11 +1,11 @@
 import SwiftUI
 import UserNotifications
-// MARK: - Firebase SDK
+// MARK: - Firebase SDK (暂时禁用)
 // 添加方法: Xcode → File → Add Package Dependencies
 // URL: https://github.com/firebase/firebase-ios-sdk
-// 选择: FirebaseAuth, FirebaseFirestore
-import FirebaseCore
-import FirebaseAuth
+// 选择: FirebaseAuth, FirebaseFirestore, FirebaseCore
+// import FirebaseCore
+// import FirebaseAuth
 
 @main
 struct LottoAIApp: App {
@@ -41,8 +41,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
-        // 初始化 Firebase
-        FirebaseApp.configure()
+        // 初始化 Firebase (暂时禁用)
+        // FirebaseApp.configure()
 
         // 设置通知代理
         UNUserNotificationCenter.current().delegate = self

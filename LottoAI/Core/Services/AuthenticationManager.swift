@@ -3,10 +3,11 @@ import AuthenticationServices
 import CryptoKit
 import SwiftUI
 import UIKit
-import FirebaseAuth
-import FirebaseFirestore
+// Firebase SDK (暂时禁用)
+// import FirebaseAuth
+// import FirebaseFirestore
 
-/// 用户认证管理器
+/// 用户认证管理器 (本地模式 - Firebase 暂时禁用)
 @MainActor
 class AuthenticationManager: NSObject, ObservableObject {
     static let shared = AuthenticationManager()
@@ -29,16 +30,11 @@ class AuthenticationManager: NSObject, ObservableObject {
 
     // MARK: - Check Existing Session
     private func checkExistingSession() {
-        // 检查 Firebase 登录状态
-        if let firebaseUser = Auth.auth().currentUser {
-            Task { await loadUserProfile(uid: firebaseUser.uid) }
-        } else {
-            // 备用: 从 UserDefaults 读取
-            if let userData = UserDefaults.standard.data(forKey: "currentUser"),
-               let user = try? JSONDecoder().decode(AppUser.self, from: userData) {
-                self.currentUser = user
-                self.isAuthenticated = true
-            }
+        // 从 UserDefaults 读取缓存的用户
+        if let userData = UserDefaults.standard.data(forKey: "currentUser"),
+           let user = try? JSONDecoder().decode(AppUser.self, from: userData) {
+            self.currentUser = user
+            self.isAuthenticated = true
         }
     }
 
@@ -63,11 +59,12 @@ class AuthenticationManager: NSObject, ObservableObject {
 
     // MARK: - Sign Out
     func signOut() {
-        do {
-            try Auth.auth().signOut()
-        } catch {
-            print("Firebase sign out error: \(error)")
-        }
+        // Firebase sign out (暂时禁用)
+        // do {
+        //     try Auth.auth().signOut()
+        // } catch {
+        //     print("Firebase sign out error: \(error)")
+        // }
 
         currentUser = nil
         isAuthenticated = false
@@ -76,43 +73,18 @@ class AuthenticationManager: NSObject, ObservableObject {
 
     // MARK: - Delete Account
     func deleteAccount() async throws {
-        guard let user = currentUser else { return }
-
-        // 删除 Firestore 用户数据
-        try await Firestore.firestore().collection("users").document(user.id).delete()
-
-        // 删除 Firebase Auth 账户
-        try await Auth.auth().currentUser?.delete()
+        // Firebase 删除 (暂时禁用)
+        // guard let user = currentUser else { return }
+        // try await Firestore.firestore().collection("users").document(user.id).delete()
+        // try await Auth.auth().currentUser?.delete()
 
         signOut()
     }
 
-    // MARK: - Save User to Firestore
-    private func saveUserToFirestore(_ user: AppUser) async throws {
-        let db = Firestore.firestore()
-        try db.collection("users").document(user.id).setData(from: user, merge: true)
-
-        // 同时保存到 UserDefaults 作为缓存
+    // MARK: - Save User Locally
+    private func saveUserLocally(_ user: AppUser) {
         if let data = try? JSONEncoder().encode(user) {
             UserDefaults.standard.set(data, forKey: "currentUser")
-        }
-    }
-
-    // MARK: - Load User Profile
-    private func loadUserProfile(uid: String) async {
-        do {
-            let doc = try await Firestore.firestore().collection("users").document(uid).getDocument()
-            if let user = try? doc.data(as: AppUser.self) {
-                self.currentUser = user
-                self.isAuthenticated = true
-
-                // 缓存到 UserDefaults
-                if let data = try? JSONEncoder().encode(user) {
-                    UserDefaults.standard.set(data, forKey: "currentUser")
-                }
-            }
-        } catch {
-            print("Error loading user profile: \(error)")
         }
     }
 
@@ -125,7 +97,7 @@ class AuthenticationManager: NSObject, ObservableObject {
         user.stats.lastActiveAt = Date()
 
         currentUser = user
-        try? await saveUserToFirestore(user)
+        saveUserLocally(user)
     }
 
     // MARK: - Helpers
@@ -160,17 +132,6 @@ extension AuthenticationManager: ASAuthorizationControllerDelegate {
             return
         }
 
-        guard let nonce = currentNonce else {
-            signInContinuation?.resume(throwing: AuthError.invalidNonce)
-            return
-        }
-
-        guard let appleIDToken = appleIDCredential.identityToken,
-              let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-            signInContinuation?.resume(throwing: AuthError.invalidToken)
-            return
-        }
-
         // 获取用户信息
         let userID = appleIDCredential.user
         let email = appleIDCredential.email
@@ -185,35 +146,19 @@ extension AuthenticationManager: ASAuthorizationControllerDelegate {
             displayName = "Lottery Fan"
         }
 
-        // 使用 Firebase Auth 验证
-        let credential = OAuthProvider.appleCredential(
-            withIDToken: idTokenString,
-            rawNonce: nonce,
-            fullName: fullName
+        // 创建本地用户 (Firebase 暂时禁用)
+        let user = AppUser(
+            id: userID,
+            email: email,
+            displayName: displayName,
+            createdAt: Date(),
+            stats: UserStats()
         )
 
-        Task {
-            do {
-                let authResult = try await Auth.auth().signIn(with: credential)
-                let firebaseUser = authResult.user
-
-                // 创建或更新用户
-                let user = AppUser(
-                    id: firebaseUser.uid,
-                    email: email ?? firebaseUser.email,
-                    displayName: displayName,
-                    createdAt: Date(),
-                    stats: UserStats()
-                )
-
-                try await saveUserToFirestore(user)
-                self.currentUser = user
-                self.isAuthenticated = true
-                signInContinuation?.resume(returning: user)
-            } catch {
-                signInContinuation?.resume(throwing: error)
-            }
-        }
+        saveUserLocally(user)
+        self.currentUser = user
+        self.isAuthenticated = true
+        signInContinuation?.resume(returning: user)
     }
 
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {

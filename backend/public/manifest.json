@@ -1,6 +1,6 @@
 {
-  "version": "1.0.0",
-  "last_updated": "2026-02-02T06:13:22.593537",
+  "version": "1.1.0",
+  "last_updated": "2026-02-02T16:12:07.991757",
   "lotteries": [
     "powerball",
     "mega_millions"
@@ -10,6 +10,7 @@
     "hot_cold": "/{lottery}/hot_cold_numbers.json",
     "predictions": "/{lottery}/ai_predictions.json",
     "fortune": "/{lottery}/daily_fortune.json",
+    "jackpot": "/{lottery}/jackpot.json",
     "quotes": "/daily_quotes.json"
   }
 }
