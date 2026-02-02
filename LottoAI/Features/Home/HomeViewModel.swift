@@ -31,7 +31,8 @@ class HomeViewModel: ObservableObject {
 
             if let firstResult = response.results.first {
                 latestResult = firstResult
-                jackpotAmount = firstResult.jackpot ?? formatDefaultJackpot(for: lottery)
+                // 优先使用 API 返回的 current_jackpot（来自官方数据）
+                jackpotAmount = response.currentJackpot ?? firstResult.jackpot ?? formatDefaultJackpot(for: lottery)
             }
         } catch {
             errorMessage = error.localizedDescription

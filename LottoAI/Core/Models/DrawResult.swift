@@ -35,11 +35,15 @@ struct DrawResult: Codable, Identifiable {
 struct LatestResultsResponse: Codable {
     let lottery: String
     let lastUpdated: String
+    let currentJackpot: String?  // 当前奖金（来自官方 API）
+    let nextDrawDate: String?    // 下次开奖日期
     let results: [DrawResult]
 
     enum CodingKeys: String, CodingKey {
         case lottery
         case lastUpdated = "last_updated"
+        case currentJackpot = "current_jackpot"
+        case nextDrawDate = "next_draw_date"
         case results
     }
 }
