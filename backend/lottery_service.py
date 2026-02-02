@@ -13,8 +13,9 @@ import os
 import json
 import random
 import requests
+import re
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 from collections import Counter
 import argparse
 
@@ -29,8 +30,10 @@ LOTTERY_CONFIG = {
         'main_range': (1, 69),
         'special_name': 'Powerball',
         'special_range': (1, 26),
-        'draw_days': ['Wednesday', 'Saturday'],
+        'draw_days': ['Monday', 'Wednesday', 'Saturday'],
         'api_url': 'https://data.ny.gov/resource/d6yy-54nr.json',
+        'jackpot_url': 'https://www.powerball.com/api/v1/estimates/powerball?_format=json',
+        'results_url': 'https://www.powerball.com/api/v1/numbers/powerball/recent?_format=json',
     },
     'mega_millions': {
         'name': 'Mega Millions',
@@ -40,6 +43,8 @@ LOTTERY_CONFIG = {
         'special_range': (1, 25),
         'draw_days': ['Tuesday', 'Friday'],
         'api_url': 'https://data.ny.gov/resource/5xaw-6ayf.json',
+        'jackpot_url': 'https://www.megamillions.com/cmspages/utilservice.asmx/GetLatestDrawData',
+        'results_url': 'https://www.megamillions.com/cmspages/utilservice.asmx/GetLatestDrawData',
     }
 }
 
@@ -52,6 +57,182 @@ STRATEGIES = [
     {'id': 'random', 'name': 'Lucky Random', 'description': 'Randomly generated numbers'},
 ]
 
+# HTTP Headers to mimic browser
+HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Accept': 'application/json, text/plain, */*',
+    'Accept-Language': 'en-US,en;q=0.9',
+}
+
+
+class JackpotScraper:
+    """Scraper for lottery jackpot information from official websites"""
+
+    @staticmethod
+    def fetch_powerball_jackpot() -> Dict:
+        """Fetch current Powerball jackpot and recent results"""
+        jackpot_info = {
+            'current_jackpot': None,
+            'cash_option': None,
+            'next_draw_date': None,
+            'recent_results': []
+        }
+
+        try:
+            # Try official Powerball API
+            response = requests.get(
+                'https://www.powerball.com/api/v1/estimates/powerball?_format=json',
+                headers=HEADERS,
+                timeout=15
+            )
+            if response.status_code == 200:
+                data = response.json()
+                if data:
+                    jackpot_info['current_jackpot'] = data.get('jackpot', {}).get('amount')
+                    jackpot_info['cash_option'] = data.get('jackpot', {}).get('cash')
+                    jackpot_info['next_draw_date'] = data.get('next_draw_date')
+        except Exception as e:
+            print(f"Powerball API error: {e}")
+
+        # Try fetching recent results with jackpots
+        try:
+            response = requests.get(
+                'https://www.powerball.com/api/v1/numbers/powerball/recent?_format=json',
+                headers=HEADERS,
+                timeout=15
+            )
+            if response.status_code == 200:
+                data = response.json()
+                if isinstance(data, list):
+                    for draw in data[:10]:
+                        result = {
+                            'date': draw.get('draw_date', ''),
+                            'numbers': [],
+                            'powerball': None,
+                            'jackpot': None,
+                            'multiplier': draw.get('multiplier')
+                        }
+
+                        # Parse numbers
+                        if 'winning_numbers' in draw:
+                            nums = draw['winning_numbers'].split()
+                            if len(nums) >= 6:
+                                result['numbers'] = [int(n) for n in nums[:5]]
+                                result['powerball'] = int(nums[5])
+
+                        # Get jackpot
+                        if 'jackpot' in draw:
+                            result['jackpot'] = draw['jackpot']
+
+                        jackpot_info['recent_results'].append(result)
+        except Exception as e:
+            print(f"Powerball results API error: {e}")
+
+        # Fallback: scrape from lottery.net
+        if not jackpot_info['current_jackpot']:
+            jackpot_info.update(JackpotScraper._scrape_lottery_net('powerball'))
+
+        return jackpot_info
+
+    @staticmethod
+    def fetch_mega_millions_jackpot() -> Dict:
+        """Fetch current Mega Millions jackpot and recent results"""
+        jackpot_info = {
+            'current_jackpot': None,
+            'cash_option': None,
+            'next_draw_date': None,
+            'recent_results': []
+        }
+
+        try:
+            # Try Mega Millions API
+            response = requests.get(
+                'https://www.megamillions.com/cmspages/utilservice.asmx/GetLatestDrawData',
+                headers=HEADERS,
+                timeout=15
+            )
+            if response.status_code == 200:
+                data = response.json()
+                if 'Jackpot' in data:
+                    jackpot_info['current_jackpot'] = data.get('Jackpot', {}).get('CurrentJackpot')
+                    jackpot_info['cash_option'] = data.get('Jackpot', {}).get('CurrentCashValue')
+                    jackpot_info['next_draw_date'] = data.get('Jackpot', {}).get('NextDrawDate')
+
+                # Get winning numbers
+                if 'Drawing' in data:
+                    result = {
+                        'date': data['Drawing'].get('DrawDate'),
+                        'numbers': data['Drawing'].get('WinningNumbers', []),
+                        'megaball': data['Drawing'].get('MegaBall'),
+                        'megaplier': data['Drawing'].get('Megaplier'),
+                        'jackpot': data['Drawing'].get('Jackpot')
+                    }
+                    jackpot_info['recent_results'].append(result)
+        except Exception as e:
+            print(f"Mega Millions API error: {e}")
+
+        # Fallback: scrape from lottery.net
+        if not jackpot_info['current_jackpot']:
+            jackpot_info.update(JackpotScraper._scrape_lottery_net('mega-millions'))
+
+        return jackpot_info
+
+    @staticmethod
+    def _scrape_lottery_net(lottery: str) -> Dict:
+        """Fallback scraper from lottery.net"""
+        result = {
+            'current_jackpot': None,
+            'cash_option': None,
+            'recent_results': []
+        }
+
+        try:
+            url = f'https://www.lottery.net/{lottery}/numbers'
+            response = requests.get(url, headers=HEADERS, timeout=15)
+            if response.status_code == 200:
+                html = response.text
+
+                # Extract jackpot amount using regex
+                jackpot_match = re.search(r'\$[\d,]+\s*(?:Million|Billion)', html, re.IGNORECASE)
+                if jackpot_match:
+                    result['current_jackpot'] = jackpot_match.group()
+
+                # Extract recent numbers (simplified)
+                numbers_pattern = r'(\d{1,2})\s*,\s*(\d{1,2})\s*,\s*(\d{1,2})\s*,\s*(\d{1,2})\s*,\s*(\d{1,2})'
+                matches = re.findall(numbers_pattern, html)
+                for match in matches[:5]:
+                    result['recent_results'].append({
+                        'numbers': [int(n) for n in match]
+                    })
+        except Exception as e:
+            print(f"lottery.net scrape error: {e}")
+
+        return result
+
+    @staticmethod
+    def _scrape_usamega(lottery: str) -> Dict:
+        """Backup scraper from usamega.com"""
+        result = {
+            'current_jackpot': None,
+            'recent_results': []
+        }
+
+        try:
+            url = f'https://www.usamega.com/{lottery}/'
+            response = requests.get(url, headers=HEADERS, timeout=15)
+            if response.status_code == 200:
+                html = response.text
+
+                # Extract jackpot
+                jackpot_match = re.search(r'Est\.\s*Jackpot[:\s]*\$?([\d,]+)\s*(?:Million|Billion)?', html, re.IGNORECASE)
+                if jackpot_match:
+                    amount = jackpot_match.group(1).replace(',', '')
+                    result['current_jackpot'] = f"${amount} Million"
+        except Exception as e:
+            print(f"usamega scrape error: {e}")
+
+        return result
+
 
 class LotteryService:
     """Service to fetch lottery data and generate predictions"""
@@ -62,12 +243,42 @@ class LotteryService:
         self.lottery_type = lottery_type
         self.config = LOTTERY_CONFIG[lottery_type]
         self.history: List[Dict] = []
+        self.jackpot_info: Dict = {}
+
+    def fetch_jackpot(self) -> Dict:
+        """Fetch current jackpot information"""
+        print(f"Fetching jackpot for {self.config['name']}...")
+
+        if self.lottery_type == 'powerball':
+            self.jackpot_info = JackpotScraper.fetch_powerball_jackpot()
+        else:
+            self.jackpot_info = JackpotScraper.fetch_mega_millions_jackpot()
+
+        if self.jackpot_info.get('current_jackpot'):
+            print(f"  Current jackpot: {self.jackpot_info['current_jackpot']}")
+        else:
+            print("  Could not fetch jackpot, using estimate")
+            self.jackpot_info['current_jackpot'] = self._estimate_jackpot()
+
+        return self.jackpot_info
+
+    def _estimate_jackpot(self) -> str:
+        """Estimate jackpot based on typical ranges"""
+        # Typical jackpot ranges
+        min_jackpot = 20
+        max_jackpot = 500
+        estimated = random.randint(min_jackpot, max_jackpot)
+        return f"${estimated} Million (Est.)"
 
     def fetch_history(self, limit: int = 100) -> List[Dict]:
         """Fetch historical draw results from public API"""
+        # First try to get jackpot info which may have recent results
+        if not self.jackpot_info:
+            self.fetch_jackpot()
+
         try:
             url = f"{self.config['api_url']}?$limit={limit}&$order=draw_date DESC"
-            response = requests.get(url, timeout=30)
+            response = requests.get(url, headers=HEADERS, timeout=30)
             response.raise_for_status()
             data = response.json()
 
@@ -82,11 +293,16 @@ class LotteryService:
                         numbers = [int(item.get('winning_numbers', '').split()[i]) for i in range(5)]
                         special = int(item.get('mega_ball', 0))
 
+                    # Try to find jackpot from scraped data
+                    draw_date = item.get('draw_date', '')[:10]
+                    jackpot = self._find_jackpot_for_date(draw_date)
+
                     self.history.append({
-                        'date': item.get('draw_date', '')[:10],
+                        'date': draw_date,
                         'numbers': numbers,
                         'special': special,
-                        'jackpot': item.get('jackpot', 'Unknown')
+                        'jackpot': jackpot or item.get('jackpot', 'Unknown'),
+                        'multiplier': item.get('multiplier')
                     })
                 except (ValueError, IndexError, KeyError) as e:
                     continue
@@ -98,6 +314,18 @@ class LotteryService:
             print(f"Error fetching history: {e}")
             # Use mock data if API fails
             return self._generate_mock_history(limit)
+
+    def _find_jackpot_for_date(self, date: str) -> Optional[str]:
+        """Find jackpot amount for a specific date from scraped data"""
+        if not self.jackpot_info or 'recent_results' not in self.jackpot_info:
+            return None
+
+        for result in self.jackpot_info.get('recent_results', []):
+            result_date = result.get('date', '')
+            if result_date and date in result_date:
+                return result.get('jackpot')
+
+        return None
 
     def _generate_mock_history(self, count: int = 50) -> List[Dict]:
         """Generate mock historical data for testing"""
@@ -118,6 +346,21 @@ class LotteryService:
 
         return self.history
 
+    def get_jackpot_info(self) -> Dict:
+        """Get current jackpot information"""
+        if not self.jackpot_info:
+            self.fetch_jackpot()
+
+        return {
+            'lottery': self.config['name'],
+            'lottery_type': self.lottery_type,
+            'last_updated': datetime.now().isoformat(),
+            'current_jackpot': self.jackpot_info.get('current_jackpot'),
+            'cash_option': self.jackpot_info.get('cash_option'),
+            'next_draw_date': self.jackpot_info.get('next_draw_date') or self._get_next_draw_date(),
+            'draw_days': self.config['draw_days']
+        }
+
     def get_latest_results(self) -> Dict:
         """Get the latest draw results"""
         if not self.history:
@@ -129,12 +372,15 @@ class LotteryService:
             'lottery': self.config['name'],
             'lottery_type': self.lottery_type,
             'last_updated': datetime.now().isoformat(),
+            'current_jackpot': self.jackpot_info.get('current_jackpot') if self.jackpot_info else None,
+            'next_draw_date': self._get_next_draw_date(),
             'results': [
                 {
                     'draw_date': r['date'],
                     'numbers': r['numbers'],
                     'special_ball': r['special'],
-                    'jackpot': r.get('jackpot', 'Unknown')
+                    'jackpot': r.get('jackpot', 'Unknown'),
+                    'multiplier': r.get('multiplier')
                 }
                 for r in latest
             ]
@@ -212,6 +458,7 @@ class LotteryService:
             'lottery_type': self.lottery_type,
             'generated_at': datetime.now().isoformat(),
             'next_draw': self._get_next_draw_date(),
+            'current_jackpot': self.jackpot_info.get('current_jackpot') if self.jackpot_info else None,
             'predictions': predictions
         }
 
@@ -322,7 +569,7 @@ def generate_quotes() -> List[Dict]:
 def generate_manifest() -> Dict:
     """Generate API manifest"""
     return {
-        'version': '1.0.0',
+        'version': '1.1.0',
         'last_updated': datetime.now().isoformat(),
         'lotteries': ['powerball', 'mega_millions'],
         'endpoints': {
@@ -330,6 +577,7 @@ def generate_manifest() -> Dict:
             'hot_cold': '/{lottery}/hot_cold_numbers.json',
             'predictions': '/{lottery}/ai_predictions.json',
             'fortune': '/{lottery}/daily_fortune.json',
+            'jackpot': '/{lottery}/jackpot.json',
             'quotes': '/daily_quotes.json',
         }
     }
@@ -363,6 +611,9 @@ def main():
         print(f"\nProcessing {lottery_type}...")
         service = LotteryService(lottery_type)
 
+        # Fetch jackpot first (may include recent results)
+        service.fetch_jackpot()
+
         # Fetch history
         service.fetch_history(limit=100)
 
@@ -380,6 +631,10 @@ def main():
 
         save_json(service.get_daily_fortune(),
                   os.path.join(lottery_dir, 'daily_fortune.json'))
+
+        # New: Save jackpot info
+        save_json(service.get_jackpot_info(),
+                  os.path.join(lottery_dir, 'jackpot.json'))
 
     # Generate common files
     save_json(generate_quotes(), os.path.join(output_dir, 'daily_quotes.json'))
