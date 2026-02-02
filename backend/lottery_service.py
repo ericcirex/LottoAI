@@ -128,9 +128,25 @@ class JackpotScraper:
         except Exception as e:
             print(f"Powerball results API error: {e}")
 
-        # Fallback: scrape from lottery.net
+        # Fallback 1: scrape from lottery.net
         if not jackpot_info['current_jackpot']:
+            print("  Powerball API failed, trying lottery.net...")
             jackpot_info.update(JackpotScraper._scrape_lottery_net('powerball'))
+
+        # Fallback 2: scrape from powerball.com homepage
+        if not jackpot_info['current_jackpot']:
+            print("  lottery.net failed, trying powerball.com homepage...")
+            try:
+                response = requests.get('https://www.powerball.com/', headers=HEADERS, timeout=15)
+                if response.status_code == 200:
+                    html = response.text
+                    # Look for jackpot in page
+                    match = re.search(r'(\$\d+(?:\.\d+)?\s*(?:Million|Billion))', html, re.IGNORECASE)
+                    if match:
+                        jackpot_info['current_jackpot'] = match.group(1)
+                        print(f"  Found jackpot from homepage: {jackpot_info['current_jackpot']}")
+            except Exception as e:
+                print(f"  powerball.com homepage error: {e}")
 
         return jackpot_info
 
@@ -171,9 +187,24 @@ class JackpotScraper:
         except Exception as e:
             print(f"Mega Millions API error: {e}")
 
-        # Fallback: scrape from lottery.net
+        # Fallback 1: scrape from lottery.net
         if not jackpot_info['current_jackpot']:
+            print("  Mega Millions API failed, trying lottery.net...")
             jackpot_info.update(JackpotScraper._scrape_lottery_net('mega-millions'))
+
+        # Fallback 2: scrape from megamillions.com homepage
+        if not jackpot_info['current_jackpot']:
+            print("  lottery.net failed, trying megamillions.com homepage...")
+            try:
+                response = requests.get('https://www.megamillions.com/', headers=HEADERS, timeout=15)
+                if response.status_code == 200:
+                    html = response.text
+                    match = re.search(r'(\$\d+(?:\.\d+)?\s*(?:Million|Billion))', html, re.IGNORECASE)
+                    if match:
+                        jackpot_info['current_jackpot'] = match.group(1)
+                        print(f"  Found jackpot from homepage: {jackpot_info['current_jackpot']}")
+            except Exception as e:
+                print(f"  megamillions.com homepage error: {e}")
 
         return jackpot_info
 
@@ -188,14 +219,26 @@ class JackpotScraper:
 
         try:
             url = f'https://www.lottery.net/{lottery}/numbers'
+            print(f"  Fetching from lottery.net: {url}")
             response = requests.get(url, headers=HEADERS, timeout=15)
             if response.status_code == 200:
                 html = response.text
 
-                # Extract jackpot amount using regex
-                jackpot_match = re.search(r'\$[\d,]+\s*(?:Million|Billion)', html, re.IGNORECASE)
-                if jackpot_match:
-                    result['current_jackpot'] = jackpot_match.group()
+                # Multiple patterns for jackpot extraction
+                jackpot_patterns = [
+                    r'jackpot[^$]*(\$[\d,]+(?:\.\d+)?\s*(?:Million|Billion))',
+                    r'(\$[\d,]+(?:\.\d+)?\s*(?:Million|Billion))\s*(?:jackpot|estimated)',
+                    r'Est(?:imated)?[^$]*(\$[\d,]+(?:\.\d+)?\s*(?:Million|Billion))',
+                    r'>(\$[\d,]+(?:\.\d+)?\s*(?:Million|Billion))<',
+                    r'(\$\d+(?:\.\d+)?\s*(?:Million|Billion))',
+                ]
+
+                for pattern in jackpot_patterns:
+                    jackpot_match = re.search(pattern, html, re.IGNORECASE)
+                    if jackpot_match:
+                        result['current_jackpot'] = jackpot_match.group(1)
+                        print(f"  Found jackpot: {result['current_jackpot']}")
+                        break
 
                 # Extract recent numbers (simplified)
                 numbers_pattern = r'(\d{1,2})\s*,\s*(\d{1,2})\s*,\s*(\d{1,2})\s*,\s*(\d{1,2})\s*,\s*(\d{1,2})'
@@ -204,6 +247,9 @@ class JackpotScraper:
                     result['recent_results'].append({
                         'numbers': [int(n) for n in match]
                     })
+
+                if not result['current_jackpot']:
+                    print(f"  Warning: Could not extract jackpot from lottery.net")
         except Exception as e:
             print(f"lottery.net scrape error: {e}")
 
@@ -263,12 +309,9 @@ class LotteryService:
         return self.jackpot_info
 
     def _estimate_jackpot(self) -> str:
-        """Estimate jackpot based on typical ranges"""
-        # Typical jackpot ranges
-        min_jackpot = 20
-        max_jackpot = 500
-        estimated = random.randint(min_jackpot, max_jackpot)
-        return f"${estimated} Million (Est.)"
+        """Return placeholder when jackpot cannot be fetched"""
+        # Return a clear message instead of random estimate
+        return "Check official site"
 
     def fetch_history(self, limit: int = 100) -> List[Dict]:
         """Fetch historical draw results from public API"""
