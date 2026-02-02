@@ -167,7 +167,7 @@ struct HotColdChartCard: View {
 
                     // 说明
                     HStack {
-                        Text(showHot ? "Most frequent numbers" : "Least frequent - due for a hit?")
+                        Text(showHot ? "Most frequent numbers" : "Least frequent numbers")
                             .font(.caption)
                             .foregroundColor(AppColors.textSecondary)
 
