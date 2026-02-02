@@ -73,105 +73,43 @@ class HistoryViewModel: ObservableObject {
     }
 
     private func generateMockHotCold(for lottery: LotteryType) -> HotColdResponse {
-        // Powerball 和 Mega Millions 有完全不同的热冷号数据
-        let hotNumbers: [HotColdNumber]
-        let coldNumbers: [HotColdNumber]
-        let hotSpecial: [HotColdNumber]
-        let coldSpecial: [HotColdNumber]
-
+        // Mock 数据 - 实际会从 API 获取
         if lottery == .powerball {
-            // Powerball 热号: 基于实际统计的常见号码
-            hotNumbers = [
-                HotColdNumber(number: 21, count: 32, percentage: 0.16),
-                HotColdNumber(number: 36, count: 30, percentage: 0.15),
-                HotColdNumber(number: 23, count: 29, percentage: 0.145),
-                HotColdNumber(number: 61, count: 28, percentage: 0.14),
-                HotColdNumber(number: 69, count: 27, percentage: 0.135),
-                HotColdNumber(number: 39, count: 26, percentage: 0.13),
-                HotColdNumber(number: 59, count: 25, percentage: 0.125),
-                HotColdNumber(number: 32, count: 24, percentage: 0.12),
-                HotColdNumber(number: 10, count: 23, percentage: 0.115),
-                HotColdNumber(number: 62, count: 22, percentage: 0.11)
-            ]
-            coldNumbers = [
-                HotColdNumber(number: 26, count: 8, percentage: 0.04),
-                HotColdNumber(number: 34, count: 9, percentage: 0.045),
-                HotColdNumber(number: 48, count: 10, percentage: 0.05),
-                HotColdNumber(number: 51, count: 11, percentage: 0.055),
-                HotColdNumber(number: 65, count: 12, percentage: 0.06),
-                HotColdNumber(number: 13, count: 13, percentage: 0.065),
-                HotColdNumber(number: 44, count: 14, percentage: 0.07),
-                HotColdNumber(number: 55, count: 14, percentage: 0.07),
-                HotColdNumber(number: 67, count: 15, percentage: 0.075),
-                HotColdNumber(number: 29, count: 15, percentage: 0.075)
-            ]
-            hotSpecial = [
-                HotColdNumber(number: 24, count: 28, percentage: 0.14),
-                HotColdNumber(number: 18, count: 26, percentage: 0.13),
-                HotColdNumber(number: 21, count: 24, percentage: 0.12),
-                HotColdNumber(number: 10, count: 22, percentage: 0.11),
-                HotColdNumber(number: 4, count: 20, percentage: 0.10)
-            ]
-            coldSpecial = [
-                HotColdNumber(number: 15, count: 6, percentage: 0.03),
-                HotColdNumber(number: 23, count: 7, percentage: 0.035),
-                HotColdNumber(number: 26, count: 8, percentage: 0.04),
-                HotColdNumber(number: 8, count: 9, percentage: 0.045),
-                HotColdNumber(number: 12, count: 10, percentage: 0.05)
-            ]
-        } else {
-            // Mega Millions 热号: 不同的数据集
-            hotNumbers = [
-                HotColdNumber(number: 17, count: 35, percentage: 0.175),
-                HotColdNumber(number: 31, count: 33, percentage: 0.165),
-                HotColdNumber(number: 10, count: 31, percentage: 0.155),
-                HotColdNumber(number: 46, count: 30, percentage: 0.15),
-                HotColdNumber(number: 70, count: 29, percentage: 0.145),
-                HotColdNumber(number: 14, count: 28, percentage: 0.14),
-                HotColdNumber(number: 62, count: 27, percentage: 0.135),
-                HotColdNumber(number: 28, count: 26, percentage: 0.13),
-                HotColdNumber(number: 38, count: 25, percentage: 0.125),
-                HotColdNumber(number: 53, count: 24, percentage: 0.12)
-            ]
-            coldNumbers = [
-                HotColdNumber(number: 21, count: 7, percentage: 0.035),
-                HotColdNumber(number: 45, count: 8, percentage: 0.04),
-                HotColdNumber(number: 57, count: 9, percentage: 0.045),
-                HotColdNumber(number: 66, count: 10, percentage: 0.05),
-                HotColdNumber(number: 33, count: 11, percentage: 0.055),
-                HotColdNumber(number: 49, count: 12, percentage: 0.06),
-                HotColdNumber(number: 8, count: 13, percentage: 0.065),
-                HotColdNumber(number: 25, count: 13, percentage: 0.065),
-                HotColdNumber(number: 59, count: 14, percentage: 0.07),
-                HotColdNumber(number: 68, count: 14, percentage: 0.07)
-            ]
-            hotSpecial = [
-                HotColdNumber(number: 22, count: 30, percentage: 0.15),
-                HotColdNumber(number: 11, count: 28, percentage: 0.14),
-                HotColdNumber(number: 9, count: 26, percentage: 0.13),
-                HotColdNumber(number: 3, count: 24, percentage: 0.12),
-                HotColdNumber(number: 15, count: 22, percentage: 0.11)
-            ]
-            coldSpecial = [
-                HotColdNumber(number: 19, count: 5, percentage: 0.025),
-                HotColdNumber(number: 6, count: 6, percentage: 0.03),
-                HotColdNumber(number: 24, count: 7, percentage: 0.035),
-                HotColdNumber(number: 1, count: 8, percentage: 0.04),
-                HotColdNumber(number: 13, count: 9, percentage: 0.045)
-            ]
-        }
-
-        return HotColdResponse(
-            lottery: lottery.rawValue,
-            analyzedDraws: 200,
-            mainNumbers: HotColdResponse.MainNumberAnalysis(
-                hotNumbers: hotNumbers,
-                coldNumbers: coldNumbers
-            ),
-            specialBall: HotColdResponse.SpecialBallAnalysis(
-                hotNumbers: hotSpecial,
-                coldNumbers: coldSpecial
+            return HotColdResponse(
+                lottery: "Powerball",
+                analysisPeriod: "Last 50 draws",
+                lastUpdated: "2026-02-02",
+                hotNumbers: HotColdResponse.NumberSet(
+                    main: [28, 51, 5, 18, 8, 53, 32, 40, 63, 21],
+                    special: [23, 14, 1, 12, 2]
+                ),
+                coldNumbers: HotColdResponse.NumberSet(
+                    main: [42],
+                    special: [6, 8, 9, 13, 24]
+                ),
+                frequency: HotColdResponse.FrequencyData(
+                    main: ["28": 10, "51": 8, "5": 7],
+                    special: ["23": 7, "14": 5, "1": 4]
+                )
             )
-        )
+        } else {
+            return HotColdResponse(
+                lottery: "Mega Millions",
+                analysisPeriod: "Last 50 draws",
+                lastUpdated: "2026-02-02",
+                hotNumbers: HotColdResponse.NumberSet(
+                    main: [31, 17, 46, 10, 70, 14, 1, 64, 62, 4],
+                    special: [4, 13, 24, 22, 5]
+                ),
+                coldNumbers: HotColdResponse.NumberSet(
+                    main: [21, 57, 19],
+                    special: [2, 20, 7, 23, 25]
+                ),
+                frequency: HotColdResponse.FrequencyData(
+                    main: ["31": 10, "17": 8, "46": 7],
+                    special: ["4": 6, "13": 5, "24": 4]
+                )
+            )
+        }
     }
 }

@@ -62,46 +62,31 @@ struct LatestResultsResponse: Codable {
     }
 }
 
-/// 冷热号数据
-struct HotColdNumber: Codable, Identifiable {
-    let number: Int
-    let count: Int
-    let percentage: Double
-
-    var id: Int { number }
-}
-
-/// 冷热号 API 响应
+/// 冷热号 API 响应 (匹配实际 API 格式)
 struct HotColdResponse: Codable {
     let lottery: String
-    let analyzedDraws: Int
-    let mainNumbers: MainNumberAnalysis
-    let specialBall: SpecialBallAnalysis
+    let analysisPeriod: String
+    let lastUpdated: String
+    let hotNumbers: NumberSet
+    let coldNumbers: NumberSet
+    let frequency: FrequencyData
 
     enum CodingKeys: String, CodingKey {
         case lottery
-        case analyzedDraws = "analyzed_draws"
-        case mainNumbers = "main_numbers"
-        case specialBall = "special_ball"
+        case analysisPeriod = "analysis_period"
+        case lastUpdated = "last_updated"
+        case hotNumbers = "hot_numbers"
+        case coldNumbers = "cold_numbers"
+        case frequency
     }
 
-    struct MainNumberAnalysis: Codable {
-        let hotNumbers: [HotColdNumber]
-        let coldNumbers: [HotColdNumber]
-
-        enum CodingKeys: String, CodingKey {
-            case hotNumbers = "hot_numbers"
-            case coldNumbers = "cold_numbers"
-        }
+    struct NumberSet: Codable {
+        let main: [Int]
+        let special: [Int]
     }
 
-    struct SpecialBallAnalysis: Codable {
-        let hotNumbers: [HotColdNumber]
-        let coldNumbers: [HotColdNumber]
-
-        enum CodingKeys: String, CodingKey {
-            case hotNumbers = "hot_numbers"
-            case coldNumbers = "cold_numbers"
-        }
+    struct FrequencyData: Codable {
+        let main: [String: Int]
+        let special: [String: Int]
     }
 }

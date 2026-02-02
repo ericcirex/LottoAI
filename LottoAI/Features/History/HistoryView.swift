@@ -66,7 +66,17 @@ struct HotColdChartCard: View {
     let lottery: LotteryType
 
     @State private var showHot = true
-    @State private var selectedNumber: Int?
+
+    // 将数字数组和频率转换为图表数据
+    private var chartData: [(number: Int, count: Int)] {
+        let numbers = showHot ? data.hotNumbers.main : data.coldNumbers.main
+        let frequency = data.frequency.main
+
+        return numbers.prefix(10).map { num in
+            let count = frequency[String(num)] ?? 0
+            return (number: num, count: count)
+        }
+    }
 
     var body: some View {
         VStack(spacing: 16) {
@@ -129,72 +139,41 @@ struct HotColdChartCard: View {
                     }
 
                     // 图表
-                    let numbers = showHot ? data.mainNumbers.hotNumbers : data.mainNumbers.coldNumbers
-
-                    Chart(numbers) { item in
-                        BarMark(
-                            x: .value("Number", "\(item.number)"),
-                            y: .value("Count", item.count)
-                        )
-                        .foregroundStyle(
-                            selectedNumber == item.number
-                                ? AppColors.gold
-                                : (showHot ? lottery.themeColor : AppColors.techCyan)
-                        )
-                        .cornerRadius(4)
-                        .annotation(position: .top, alignment: .center) {
-                            if selectedNumber == item.number {
-                                Text("\(item.count)")
-                                    .font(.caption2)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(AppColors.gold)
+                    if !chartData.isEmpty {
+                        Chart(chartData, id: \.number) { item in
+                            BarMark(
+                                x: .value("Number", "\(item.number)"),
+                                y: .value("Count", item.count)
+                            )
+                            .foregroundStyle(showHot ? lottery.themeColor : AppColors.techCyan)
+                            .cornerRadius(4)
+                        }
+                        .frame(height: 160)
+                        .chartXAxis {
+                            AxisMarks(values: .automatic) { _ in
+                                AxisValueLabel()
+                                    .foregroundStyle(AppColors.textSecondary)
                             }
                         }
-                    }
-                    .frame(height: 160)
-                    .chartXAxis {
-                        AxisMarks(values: .automatic) { _ in
-                            AxisValueLabel()
-                                .foregroundStyle(AppColors.textSecondary)
-                        }
-                    }
-                    .chartYAxis {
-                        AxisMarks(values: .automatic) { _ in
-                            AxisGridLine()
-                                .foregroundStyle(AppColors.textTertiary.opacity(0.3))
-                            AxisValueLabel()
-                                .foregroundStyle(AppColors.textSecondary)
-                        }
-                    }
-                    .chartOverlay { proxy in
-                        GeometryReader { geometry in
-                            Rectangle()
-                                .fill(Color.clear)
-                                .contentShape(Rectangle())
-                                .gesture(
-                                    DragGesture(minimumDistance: 0)
-                                        .onChanged { value in
-                                            let xPosition = value.location.x
-                                            if let category: String = proxy.value(atX: xPosition) {
-                                                selectedNumber = Int(category)
-                                            }
-                                        }
-                                        .onEnded { _ in
-                                            selectedNumber = nil
-                                        }
-                                )
+                        .chartYAxis {
+                            AxisMarks(values: .automatic) { _ in
+                                AxisGridLine()
+                                    .foregroundStyle(AppColors.textTertiary.opacity(0.3))
+                                AxisValueLabel()
+                                    .foregroundStyle(AppColors.textSecondary)
+                            }
                         }
                     }
 
                     // 说明
                     HStack {
-                        Text(showHot ? "Most frequent in last \(data.analyzedDraws) draws" : "Least frequent - due for a hit?")
+                        Text(showHot ? "Most frequent numbers" : "Least frequent - due for a hit?")
                             .font(.caption)
                             .foregroundColor(AppColors.textSecondary)
 
                         Spacer()
 
-                        Text("\(data.analyzedDraws) draws analyzed")
+                        Text(data.analysisPeriod)
                             .font(.caption)
                             .foregroundColor(AppColors.textTertiary)
                     }
@@ -203,7 +182,8 @@ struct HotColdChartCard: View {
 
             // 号码球展示
             NumberBallsRow(
-                numbers: showHot ? data.mainNumbers.hotNumbers : data.mainNumbers.coldNumbers,
+                numbers: showHot ? data.hotNumbers.main : data.coldNumbers.main,
+                frequency: data.frequency.main,
                 isHot: showHot,
                 lottery: lottery
             )
@@ -213,7 +193,8 @@ struct HotColdChartCard: View {
 
 // MARK: - 号码球行
 struct NumberBallsRow: View {
-    let numbers: [HotColdNumber]
+    let numbers: [Int]
+    let frequency: [String: Int]
     let isHot: Bool
     let lottery: LotteryType
 
@@ -225,7 +206,7 @@ struct NumberBallsRow: View {
                     .foregroundColor(AppColors.textSecondary)
 
                 HStack(spacing: 8) {
-                    ForEach(numbers.prefix(5)) { item in
+                    ForEach(Array(numbers.prefix(5)), id: \.self) { num in
                         VStack(spacing: 4) {
                             ZStack {
                                 Circle()
@@ -242,12 +223,13 @@ struct NumberBallsRow: View {
                                     .frame(width: 40, height: 40)
                                     .shadow(color: (isHot ? lottery.themeColor : AppColors.techCyan).opacity(0.4), radius: 4, y: 2)
 
-                                Text("\(item.number)")
+                                Text("\(num)")
                                     .font(.system(size: 16, weight: .bold, design: .rounded))
                                     .foregroundColor(.white)
                             }
 
-                            Text("\(item.count)x")
+                            let count = frequency[String(num)] ?? 0
+                            Text("\(count)x")
                                 .font(.caption2)
                                 .foregroundColor(AppColors.textTertiary)
                         }
@@ -272,18 +254,10 @@ struct HistoryResultRow: View {
             VStack(spacing: 12) {
                 // 主要信息
                 HStack {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(result.formattedDate)
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .foregroundColor(.white)
-
-                        if let jackpot = result.jackpot {
-                            Text(jackpot)
-                                .font(.caption)
-                                .foregroundColor(AppColors.gold)
-                        }
-                    }
+                    Text(result.formattedDate)
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .foregroundColor(.white)
 
                     Spacer()
 
