@@ -1,10 +1,23 @@
 {
   "lottery": "Powerball",
   "lottery_type": "powerball",
-  "last_updated": "2026-02-03T08:28:39.755665",
+  "last_updated": "2026-02-03T12:41:09.951098",
   "current_jackpot": "$69.9 Million",
   "next_draw_date": "2026-02-04",
   "results": [
+    {
+      "draw_date": "2026-02-02",
+      "numbers": [
+        3,
+        8,
+        31,
+        60,
+        65
+      ],
+      "special_ball": 4,
+      "jackpot": "Unknown",
+      "multiplier": "2"
+    },
     {
       "draw_date": "2026-01-31",
       "numbers": [
@@ -121,19 +134,6 @@
       "special_ball": 4,
       "jackpot": "Unknown",
       "multiplier": "2"
-    },
-    {
-      "draw_date": "2026-01-10",
-      "numbers": [
-        5,
-        19,
-        21,
-        28,
-        64
-      ],
-      "special_ball": 14,
-      "jackpot": "Unknown",
-      "multiplier": "3"
     }
   ]
 }
