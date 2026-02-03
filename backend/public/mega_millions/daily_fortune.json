@@ -1,16 +1,16 @@
 {
   "lottery": "Mega Millions",
   "lottery_type": "mega_millions",
-  "date": "2026-02-02",
-  "fortune": "Today brings opportunities for unexpected winnings. Keep your eyes open!",
+  "date": "2026-02-03",
+  "fortune": "Your lucky energy is especially strong today. Good things are coming!",
   "lucky_numbers": [
-    10,
+    4,
+    13,
+    28,
     43,
-    51,
-    59,
-    64,
+    45,
     65
   ],
   "lucky_color": "Blue",
-  "lucky_time": "8:15 PM"
+  "lucky_time": "6:15 PM"
 }

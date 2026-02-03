@@ -1,16 +1,16 @@
 {
   "lottery": "Powerball",
   "lottery_type": "powerball",
-  "date": "2026-02-02",
-  "fortune": "The universe is sending positive vibrations your way. Stay optimistic!",
+  "date": "2026-02-03",
+  "fortune": "Today brings opportunities for unexpected winnings. Keep your eyes open!",
   "lucky_numbers": [
-    4,
-    9,
-    12,
-    19,
-    52,
-    65
+    1,
+    18,
+    29,
+    40,
+    49,
+    66
   ],
-  "lucky_color": "Green",
-  "lucky_time": "9:15 AM"
+  "lucky_color": "Blue",
+  "lucky_time": "6:45 PM"
 }
