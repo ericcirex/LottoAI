@@ -1,83 +1,83 @@
 {
   "lottery": "Powerball",
   "lottery_type": "powerball",
-  "generated_at": "2026-02-04T16:37:24.312096",
+  "generated_at": "2026-02-04T20:25:51.916426",
   "next_draw": "2026-02-04",
   "current_jackpot": "$69.9 Million",
   "predictions": [
     {
       "id": 1,
       "numbers": [
+        5,
+        16,
         18,
         31,
-        32,
-        58,
-        62
+        49
       ],
-      "special_ball": 2,
+      "special_ball": 14,
       "strategy": "Frequency Analysis",
       "strategy_id": "frequency",
-      "confidence": 0.89,
+      "confidence": 0.71,
       "description": "Based on most common numbers"
     },
     {
       "id": 2,
       "numbers": [
-        8,
-        12,
-        17,
-        35,
-        50
+        1,
+        41,
+        42,
+        50,
+        55
       ],
-      "special_ball": 13,
+      "special_ball": 8,
       "strategy": "Cold Numbers",
       "strategy_id": "cold",
-      "confidence": 0.74,
+      "confidence": 0.86,
       "description": "Numbers that have not appeared recently"
     },
     {
       "id": 3,
       "numbers": [
-        8,
-        17,
+        5,
         42,
-        51,
-        56
+        45,
+        50,
+        51
       ],
-      "special_ball": 5,
+      "special_ball": 19,
       "strategy": "Balanced Mix",
       "strategy_id": "balanced",
-      "confidence": 0.75,
+      "confidence": 0.82,
       "description": "Mix of hot and cold numbers"
     },
     {
       "id": 4,
       "numbers": [
-        8,
-        18,
-        28,
-        32,
-        54
+        3,
+        22,
+        49,
+        56,
+        72
       ],
       "special_ball": 6,
       "strategy": "Pattern Analysis",
       "strategy_id": "pattern",
-      "confidence": 0.82,
+      "confidence": 0.83,
       "description": "Based on historical patterns"
     },
     {
       "id": 5,
       "numbers": [
-        32,
-        33,
-        34,
-        40,
-        59
+        16,
+        24,
+        31,
+        37,
+        50
       ],
-      "special_ball": 4,
+      "special_ball": 3,
       "strategy": "Lucky Random",
       "strategy_id": "random",
-      "confidence": 0.94,
+      "confidence": 0.86,
       "description": "Randomly generated numbers"
     }
   ]
