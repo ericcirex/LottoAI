@@ -1,10 +1,10 @@
 {
   "lottery": "Mega Millions",
   "lottery_type": "mega_millions",
-  "last_updated": "2026-02-03T20:27:56.441422",
+  "last_updated": "2026-02-04T01:19:22.712213",
   "current_jackpot": "$303 Million",
   "cash_option": null,
-  "next_draw_date": "2026-02-03",
+  "next_draw_date": "2026-02-06",
   "draw_days": [
     "Tuesday",
     "Friday"
