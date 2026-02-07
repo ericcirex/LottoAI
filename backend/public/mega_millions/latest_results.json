@@ -1,10 +1,23 @@
 {
   "lottery": "Mega Millions",
   "lottery_type": "mega_millions",
-  "last_updated": "2026-02-07T08:21:50.727009",
+  "last_updated": "2026-02-07T12:31:45.355229",
   "current_jackpot": "$346 Million",
   "next_draw_date": "2026-02-10",
   "results": [
+    {
+      "draw_date": "2026-02-06",
+      "numbers": [
+        13,
+        21,
+        25,
+        52,
+        62
+      ],
+      "special_ball": 19,
+      "jackpot": "Unknown",
+      "multiplier": null
+    },
     {
       "draw_date": "2026-02-03",
       "numbers": [
@@ -119,19 +132,6 @@
         68
       ],
       "special_ball": 24,
-      "jackpot": "Unknown",
-      "multiplier": null
-    },
-    {
-      "draw_date": "2026-01-02",
-      "numbers": [
-        6,
-        13,
-        34,
-        43,
-        52
-      ],
-      "special_ball": 4,
       "jackpot": "Unknown",
       "multiplier": null
     }
