@@ -1,83 +1,83 @@
 {
   "lottery": "Powerball",
   "lottery_type": "powerball",
-  "generated_at": "2026-02-07T01:17:33.040417",
+  "generated_at": "2026-02-07T05:01:53.783031",
   "next_draw": "2026-02-07",
   "current_jackpot": "$83.2 Million",
   "predictions": [
     {
       "id": 1,
       "numbers": [
-        5,
-        15,
-        37,
-        58,
-        60
+        8,
+        11,
+        28,
+        60,
+        64
       ],
-      "special_ball": 23,
+      "special_ball": 15,
       "strategy": "Frequency Analysis",
       "strategy_id": "frequency",
-      "confidence": 0.84,
+      "confidence": 0.85,
       "description": "Based on most common numbers"
     },
     {
       "id": 2,
       "numbers": [
-        12,
-        13,
-        37,
-        45,
-        50
+        1,
+        9,
+        17,
+        23,
+        24
       ],
-      "special_ball": 13,
+      "special_ball": 9,
       "strategy": "Cold Numbers",
       "strategy_id": "cold",
-      "confidence": 0.66,
+      "confidence": 0.67,
       "description": "Numbers that have not appeared recently"
     },
     {
       "id": 3,
       "numbers": [
-        8,
-        15,
-        18,
-        23,
-        41
+        5,
+        28,
+        41,
+        45,
+        60
       ],
-      "special_ball": 12,
+      "special_ball": 6,
       "strategy": "Balanced Mix",
       "strategy_id": "balanced",
-      "confidence": 0.93,
+      "confidence": 0.92,
       "description": "Mix of hot and cold numbers"
     },
     {
       "id": 4,
       "numbers": [
-        13,
-        21,
-        25,
-        31,
-        64
+        9,
+        11,
+        17,
+        20,
+        31
       ],
-      "special_ball": 25,
+      "special_ball": 12,
       "strategy": "Pattern Analysis",
       "strategy_id": "pattern",
-      "confidence": 0.81,
+      "confidence": 0.9,
       "description": "Based on historical patterns"
     },
     {
       "id": 5,
       "numbers": [
-        6,
-        13,
-        24,
-        44,
-        47
+        22,
+        25,
+        53,
+        55,
+        58
       ],
-      "special_ball": 4,
+      "special_ball": 18,
       "strategy": "Lucky Random",
       "strategy_id": "random",
-      "confidence": 0.78,
+      "confidence": 0.91,
       "description": "Randomly generated numbers"
     }
   ]
